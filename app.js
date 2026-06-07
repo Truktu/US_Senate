@@ -5,7 +5,6 @@
   let usTopology = null;
 
   const tooltip = document.getElementById('tooltip');
-  const mapEl = document.getElementById('map');
 
   function showTooltip(e, content) {
     tooltip.innerHTML = content;
@@ -22,9 +21,7 @@
     tooltip.style.top = (y + th > window.innerHeight ? y - th - 10 : y) + 'px';
   }
 
-  function hideTooltip() {
-    tooltip.classList.remove('visible');
-  }
+  function hideTooltip() { tooltip.classList.remove('visible'); }
 
   function buildYearButtons() {
     const container = document.getElementById('yearButtons');
@@ -110,6 +107,56 @@
       .on('mouseleave', hideTooltip);
   }
 
+  function renderComposition() {
+    const comp = SENATE_COMPOSITION[currentYear];
+    if (!comp) return;
+
+    const { D, R, I, majority, majorityLeader } = comp;
+    const totalD = D + I; // independents caucus with Dems
+    const totalR = R;
+
+    const majorityParty = majority === 'R' ? 'Republican' : 'Democrat';
+    const majorityColor = majority === 'R' ? '#c0392b' : '#2563b0';
+    const majorityBg = majority === 'R' ? '#fde8e8' : '#dbeafe';
+
+    // Build 100 dots: sorted R first (right side), then D+I (left side)
+    // Classic senate semicircle: we'll do rows of dots
+    const seats = [];
+    for (let i = 0; i < R; i++) seats.push('R');
+    for (let i = 0; i < D; i++) seats.push('D');
+    for (let i = 0; i < I; i++) seats.push('I');
+
+    const dotsHtml = seats.map((party, idx) => {
+      let cls = 'dot-r';
+      let title = 'Republican';
+      if (party === 'D') { cls = 'dot-d'; title = 'Democrat'; }
+      if (party === 'I') { cls = 'dot-i'; title = 'Independent (caucuses with D)'; }
+      return `<span class="senate-dot ${cls}" title="${title}"></span>`;
+    }).join('');
+
+    const container = document.getElementById('senateWidget');
+    container.innerHTML = `
+      <div class="senate-majority-banner" style="background:${majorityBg};border-color:${majorityColor}22;">
+        <div class="majority-label">Majority after ${currentYear} elections</div>
+        <div class="majority-party" style="color:${majorityColor}">${majorityParty}</div>
+        <div class="majority-leader">Majority Leader: ${majorityLeader}</div>
+      </div>
+      <div class="senate-counts">
+        <span class="count-item dem-count"><span class="count-dot dot-d"></span>Democrat ${D}${I > 0 ? ` <span class="ind-note">+${I} Ind.</span>` : ''}</span>
+        <span class="count-divider">·</span>
+        <span class="count-item rep-count"><span class="count-dot dot-r"></span>Republican ${R}</span>
+      </div>
+      <div class="senate-dots" aria-label="100 Senate seats visualization">
+        ${dotsHtml}
+      </div>
+      <div class="majority-line-label">
+        <span>← Democrat</span>
+        <span class="majority-line-mid">51 needed for majority</span>
+        <span>Republican →</span>
+      </div>
+    `;
+  }
+
   function renderSummary() {
     const data = SENATE_DATA[currentYear];
     const results = data ? data.results : {};
@@ -119,14 +166,13 @@
       else if (r.party === 'R') rCount++;
     });
 
-    const container = document.getElementById('summaryCards');
-    container.innerHTML = `
+    document.getElementById('summaryCards').innerHTML = `
       <div class="summary-card dem-card">
-        <span class="s-label">Democrat</span>
+        <span class="s-label">Seats won (D)</span>
         <span class="s-value">${dCount}</span>
       </div>
       <div class="summary-card rep-card">
-        <span class="s-label">Republican</span>
+        <span class="s-label">Seats won (R)</span>
         <span class="s-value">${rCount}</span>
       </div>
     `;
@@ -161,13 +207,13 @@
   function render() {
     renderMap();
     renderSummary();
+    renderComposition();
     renderList();
   }
 
   async function init() {
     buildYearButtons();
     buildFilterButtons();
-
     try {
       usTopology = await d3.json('https://cdn.jsdelivr.net/npm/us-atlas@3/states-10m.json');
       render();
@@ -175,10 +221,7 @@
       document.getElementById('map-container').innerHTML =
         '<p style="padding:2rem;color:#888;">Failed to load map topology. Please check your internet connection.</p>';
     }
-
-    window.addEventListener('resize', () => {
-      if (usTopology) renderMap();
-    });
+    window.addEventListener('resize', () => { if (usTopology) renderMap(); });
   }
 
   init();
