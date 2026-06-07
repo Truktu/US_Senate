@@ -194,3 +194,12 @@ const SENATE_DATA = {
     }
   }
 };
+
+// Full Senate composition after each election (all 100 seats: D=Democrat, R=Republican, I=Independent caucusing with D)
+const SENATE_COMPOSITION = {
+  2024: { D: 47, R: 53, I: 0, majority: "R", majorityLeader: "John Thune" },
+  2022: { D: 48, R: 49, I: 3, majority: "D", majorityLeader: "Chuck Schumer" },
+  2020: { D: 48, R: 50, I: 2, majority: "R", majorityLeader: "Mitch McConnell" },
+  2018: { D: 45, R: 53, I: 2, majority: "R", majorityLeader: "Mitch McConnell" },
+  2016: { D: 46, R: 52, I: 2, majority: "R", majorityLeader: "Mitch McConnell" }
+};
