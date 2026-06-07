@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>U.S. Senate Election Results</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600;700&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <header>
+    <div class="header-inner">
+      <div class="header-title">
+        <span class="flag-icon">🇺🇸</span>
+        <div>
+          <h1>U.S. Senate Elections</h1>
+          <p class="subtitle">Interactive results by state</p>
+        </div>
+      </div>
+      <div class="year-selector">
+        <span class="year-label">Election year</span>
+        <div class="year-buttons" id="yearButtons"></div>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    <div class="layout">
+      <div class="map-panel">
+        <div class="map-legend">
+          <span class="legend-item dem"><span class="dot"></span>Democrat</span>
+          <span class="legend-item rep"><span class="dot"></span>Republican</span>
+          <span class="legend-item none"><span class="dot"></span>No election</span>
+        </div>
+        <div id="map-container">
+          <svg id="map"></svg>
+        </div>
+      </div>
+
+      <aside class="sidebar">
+        <div class="summary-cards" id="summaryCards"></div>
+        <div class="results-list">
+          <h2 class="list-title">Results</h2>
+          <div class="filter-row">
+            <button class="filter-btn active" data-filter="all">All</button>
+            <button class="filter-btn" data-filter="D">Democrat</button>
+            <button class="filter-btn" data-filter="R">Republican</button>
+          </div>
+          <div id="resultsList"></div>
+        </div>
+      </aside>
+    </div>
+  </main>
+
+  <div id="tooltip" class="tooltip"></div>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/d3/7.8.5/d3.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/topojson/3.0.2/topojson.min.js"></script>
+  <script src="data.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>
