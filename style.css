@@ -334,3 +334,101 @@ main {
 .tooltip-party.D { background: var(--dem); }
 .tooltip-party.R { background: var(--rep); }
 .tooltip-no-race { font-size: 0.75rem; opacity: 0.65; }
+
+/* Senate composition widget */
+.senate-widget {
+  margin-top: 1.25rem;
+  padding-top: 1.25rem;
+  border-top: 1px solid var(--border);
+}
+
+.senate-majority-banner {
+  border: 1px solid transparent;
+  border-radius: var(--radius);
+  padding: 0.875rem 1rem;
+  margin-bottom: 1rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.15rem;
+}
+
+.majority-label {
+  font-size: 0.7rem;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: var(--text-muted);
+  font-weight: 500;
+}
+
+.majority-party {
+  font-family: 'Playfair Display', serif;
+  font-size: 1.4rem;
+  font-weight: 700;
+  line-height: 1.1;
+}
+
+.majority-leader {
+  font-size: 0.78rem;
+  color: var(--text-muted);
+  margin-top: 0.1rem;
+}
+
+.senate-counts {
+  display: flex;
+  align-items: center;
+  gap: 0.625rem;
+  font-size: 0.8rem;
+  font-weight: 500;
+  margin-bottom: 0.75rem;
+}
+
+.count-item { display: flex; align-items: center; gap: 0.35rem; }
+.dem-count { color: #2563b0; }
+.rep-count { color: #c0392b; }
+.count-divider { color: var(--text-muted); }
+
+.ind-note {
+  font-size: 0.7rem;
+  font-weight: 400;
+  color: #2563b0;
+  opacity: 0.75;
+}
+
+.count-dot {
+  display: inline-block;
+  width: 9px;
+  height: 9px;
+  border-radius: 50%;
+}
+
+.senate-dots {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 3px;
+  margin-bottom: 0.5rem;
+}
+
+.senate-dot {
+  display: inline-block;
+  width: 11px;
+  height: 11px;
+  border-radius: 50%;
+  transition: transform 0.1s ease, opacity 0.1s ease;
+  cursor: default;
+}
+
+.senate-dot:hover { transform: scale(1.5); opacity: 0.85; }
+
+.dot-d { background: #2563b0; }
+.dot-r { background: #c0392b; }
+.dot-i { background: #5b8dd9; border: 1.5px solid #2563b0; }
+
+.majority-line-label {
+  display: flex;
+  justify-content: space-between;
+  font-size: 0.65rem;
+  color: var(--text-muted);
+  margin-top: 0.25rem;
+}
+
+.majority-line-mid { text-align: center; }
